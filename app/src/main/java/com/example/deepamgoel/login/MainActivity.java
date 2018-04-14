@@ -28,30 +28,20 @@ public class MainActivity extends AppCompatActivity {
     LoginButton facebookLoginButton;
     CallbackManager callbackManager;
 
+    VideoView videoView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo("com.example.deepamgoel.login",PackageManager.GET_SIGNATURES);
-//
-//            for (android.content.pm.Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
-//            Log.d("Error", e.getMessage());
-//        }
-
         setContentView(R.layout.activity_main);
 
-        VideoView videoview = findViewById(R.id.background_video);
+        videoView = findViewById(R.id.background_video);
         Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.night_traffic_time_lapse);
-        videoview.setVideoURI(uri);
-        videoview.start();
+        videoView.setVideoURI(uri);
+        videoView.start();
 
-        videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.setLooping(true);
@@ -86,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
         if (passwordLessAccessToken != null || facebookLoginToken != null) {
             launchAccountActivity();
         }
+    }
+
+    public void onResume() {
+        super.onResume();
+        videoView.start();
     }
 
     @Override
